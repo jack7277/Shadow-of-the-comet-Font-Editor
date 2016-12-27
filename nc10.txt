@@ -1,0 +1,137 @@
+10c6:0009 - seg018:0009
+read res.pak
+
+распаковка res.pak
+seg018:0228 - 10C6:0228
+resupnapck (0x1400 ,7 ,0x32D3 ,0 ,0x32BC ,0x0460 ,0 ,0x0C ,0x3314) 
+декодирование начинается с 15d5:0316
+
+seg046:002B blockDecode     proc near
+
+Самое начало декодирования файла из пака
+seg018:0209    - 10с6:0209
+
+декодер R09.cc4
+0AD6:0069
+
+распаковали шрифт на адресе
+10c6:0270
+в памяти шрифт с 3170:0000      
+
+отключаем textdecode дешифратор e.cc4
+seg009:0A8C                 nop , было  call    near ptr sub_172C1
+seg009:0A8D                 nop
+seg009:0A8E                 nop
+
+seg009:0BFA                 nop
+seg009:0BFB                 nop
+seg009:0BFC                 nop
+////////
+сама процедура
+ push    bp
+seg009:09D2                 mov     bp, sp
+seg009:09D4                 sub     sp, 0Ah
+seg009:09D7                 les     bx, [bp+arg_0]
+seg009:09DA                 mov     word ptr [bp+var_A+2], es
+seg009:09DD                 mov     word ptr [bp+var_A], bx
+seg009:09E0                 mov     [bp+var_1], 54h ; 'T'
+seg009:09E4                 mov     [bp+var_4], 0
+seg009:09E9                 mov     [bp+var_6], 0
+seg009:09EE                 jmp     short loc_1730E
+seg009:09F0 ; ---------------------------------------------------------------------------
+seg009:09F0
+seg009:09F0 loc_172E0:                              ; CODE XREF: sub_172C1+56j
+seg009:09F0                                         ; sub_172C1+5Dj
+seg009:09F0                 mov     al, [bp+var_1]
+seg009:09F3                 mov     ah, 0
+seg009:09F5                 cwd
+seg009:09F6                 mov     cx, [bp+arg_A]
+seg009:09F9                 mov     bx, [bp+arg_8]
+seg009:09FC                 add     bx, [bp+var_6]
+seg009:09FF                 adc     cx, [bp+var_4]
+seg009:0A02                 add     bx, 1
+seg009:0A05                 adc     cx, 0
+seg009:0A08                 call    LXMUL@
+seg009:0A0D                 les     bx, [bp+var_A]
+seg009:0A10                 sub     es:[bx], al
+seg009:0A13                 inc     word ptr [bp+var_A]
+seg009:0A16                 add     [bp+var_6], 1
+seg009:0A1A                 adc     [bp+var_4], 0
+seg009:0A1E
+seg009:0A1E loc_1730E:                              ; CODE XREF: sub_172C1+1Dj
+seg009:0A1E                 mov     dx, [bp+var_4]
+seg009:0A21                 mov     ax, [bp+var_6]
+seg009:0A24                 cmp     dx, [bp+arg_6]
+seg009:0A27                 jb      short loc_172E0
+seg009:0A29                 jnz     short loc_17320
+seg009:0A2B                 cmp     ax, [bp+arg_4]
+seg009:0A2E                 jb      short loc_172E0
+seg009:0A30
+seg009:0A30 loc_17320:                              ; CODE XREF: sub_172C1+58j
+seg009:0A30                 mov     sp, bp
+seg009:0A32                 pop     bp
+seg009:0A33                 retf
+seg009:0A33 sub_172C1       endp
+
+////////
+
+декодер шрифта - seg046:03BF
+
+00 04 ED 74 = 322932
+
+10C8:0249 = seg018:0249
+
+смещения
+(16 00 00 00) 
+(55 01 00 00) 
+(89 02 00 00) 
+(B1 03 00 00) 
+(B8 04 00 00) 
+00 00 
+01 1E 01 05                   
+4х-бит 4х-бит                 абс смещ Х начала / относ смещ Х
+00 01 FF                      (0A 01 = 266)        (05) 
+00 02 FF FF                   (09 01 = 265)        (04) 
+00 03 FF FF FF                (09 01 = 265)        (04) 
+00 03 FF FF FF                (09 01 = 265)        (03) 
+01 01 FF FF FF FF FF          (08 01 = 264)        (03) 
+01 01 FF FF FF FF FF          (08 01)              (02) 
+01 02 FF FF FF FF FF FF       (08 01)              (02) 
+01 02 FF FF FF FF FF FF       (08 01)              (01) 
+01 03 FF FF FF FF FF FF FF    (08 01)              (01) 
+01 03 FF FF FF FF FF FF FF    (08 01)              (00) 
+02 00 FF FF FF FF FF FF FF FF (08 01)              (00) 
+02 00 FF FF FF FF FF FF FF FF (08 01)              (00) 
+02 00 FF FF FF FF FF FF FF FF (08 01)              (00) 
+02 00 FF FF FF FF FF FF FF FF (08 01)              (00) 
+02 00 06 3D 07 3E 07 3E 07 3E (08 01)              (00)
+02 00 07 3E 07 3E 07 3E 07 3D (08 01)              (00)
+02 00 07 3E 07 3E 07 3D 07 3C (08 01)              (00)
+02 00 07 3E 07 3E 07 3C 07 3C (08 01)              (00)
+02 00 07 3E 07 3D 07 3C 07 3C (08 01)              (00)
+
+00 01 01 01 04 00                         D7 00 74 00 00 00
+00 02 00 01 00 00 00 00 00 00 01 01 00 00 E4 00 70 00 00 00
+00 02 00 01 00 00 00 00 00 00 01 01 01 00 E4 00 70 00 00 00
+00 02 00 01 00 00 00 00 00 00 01 01 02 00 E4 00 6F 00 00 00
+
+00 06 
+00 01 00 00 00 00 00 
+00 01 01 03 00 
+E4 00 6E 00 06 04
+00 05 
+E4 00 5E 00 
+E4 00 5D 00 
+E5 00 5C 00 
+E5 00 5B 00 
+06 02 
+00 05 
+E6 00 5A 00 
+E6 00 59 00 
+06 03 00 86 
+E7 00 58 00 
+E7 00 57 00 
+E9 00 53 00 
+07 02 00 3A 
+E6 00 5A 00 
+E6 00 5A 00
